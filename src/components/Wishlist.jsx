@@ -77,7 +77,7 @@ function Wishlist() {
             <p className="text-sm text-gray-600 mb-1">
               Qty: {product.quantity || 1}
             </p>
-            <p className="text-red-600 font-bold mb-2">
+            <p className="font-bold text-blue-600 dark:text-blue-400 mb-2">
               Total: Rp {(product.price * (product.quantity || 1)).toLocaleString()}
             </p>
             <div className="flex flex-col gap-2 mt-2">
@@ -99,25 +99,28 @@ hover:from-purple-600 hover:via-red-500 hover:to-red-600"
       </div>
 
       {/* Checkout Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-white shadow-md py-4 px-6 flex justify-between items-center border-t z-50">
-        <div>
-          <p className="text-gray-600 text-sm">Total Harga:</p>
-          <p className="text-xl font-bold text-red-600">
-            Rp {totalHarga.toLocaleString()}
-          </p>
-        </div>
-        <button
-          onClick={handleCheckout}
-          disabled={selectedItems.length === 0}
-          className={`px-6 py-3 rounded text-white font-semibold transition ${
-            selectedItems.length === 0
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }`}
-        >
-          Beli Sekarang ({selectedItems.length})
-        </button>
-      </div>
+      {/* Checkout Bar */}
+<div className="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md py-4 px-6 flex justify-between items-center border-t dark:border-gray-700 z-50">
+  <div>
+    <p className="text-gray-600 dark:text-gray-400 text-sm">Total Harga:</p>
+    <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+      Rp {totalHarga.toLocaleString()}
+    </p>
+  </div>
+  <button
+    onClick={handleCheckout}
+    disabled={selectedItems.length === 0}
+    className={`px-6 py-3 rounded text-white font-semibold transition
+      ${
+        selectedItems.length === 0
+          ? "bg-gray-400 cursor-not-allowed dark:bg-gray-600"
+          : "bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white px-4 py-2 rounded hover:from-green-600 hover:via-emerald-600 hover:to-lime-600 transition"
+      }
+    `}
+  >
+    Beli Sekarang ({selectedItems.length})
+  </button>
+</div>
     </div>
   );
 }

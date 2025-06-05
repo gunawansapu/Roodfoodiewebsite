@@ -1,12 +1,13 @@
 // tailwind.config.js
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  darkMode: 'class', // <--- Penting!
+  darkMode: 'media', // atau 'class' jika kamu pakai toggle manual
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        120: '30rem',
+      },
+    },
   },
   plugins: [],
-}
+};

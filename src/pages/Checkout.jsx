@@ -56,7 +56,7 @@ function Checkout() {
                   Qty: <span className="font-semibold">{product.quantity || 1}</span>
                 </p>
               </div>
-              <p className="text-red-600 font-bold text-lg">
+              <p className="font-bold text-blue-600 dark:text-blue-400 text-lg">
                 Rp {(product.price * (product.quantity || 1)).toLocaleString()}
               </p>
             </div>
@@ -71,13 +71,13 @@ function Checkout() {
           <li>✅ Transfer Bank: BCA 1234567890 a.n. ResQMeal</li>
         </ul>
         <img src="https://qris.interactive.co.id/homepage/images/assets/pay/harga/csan-qr-a.jpg" alt="QRIS" className="w-40 mx-auto mb-4" />
-        <p className="text-xl font-bold text-center text-red-600 mb-4">
+        <p className="text-xl font-bold text-blue-600 dark:text-blue-400 text-center  mb-4">
           Total: Rp {totalHarga.toLocaleString()}
         </p>
         <button
           onClick={handleConfirmPayment}
           disabled={loading}
-          className={`bg-green-600 text-white px-4 py-3 rounded w-full hover:bg-green-700 transition ${
+          className={` px-4 py-3 rounded w-full bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white hover:from-green-600 hover:via-emerald-600 hover:to-lime-600transition ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >

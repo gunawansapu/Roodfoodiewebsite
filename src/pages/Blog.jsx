@@ -21,7 +21,7 @@ const blogPosts = [
     slug: "rahasia-ayam-bakar-madu",
     image:
       "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
-      url:"https://cookpad.com/id/resep/24526431-ayam-bakar-madu?ref=search&search_term=ayam+bakar+madu"
+    url: "https://cookpad.com/id/resep/24526431-ayam-bakar-madu?ref=search&search_term=ayam+bakar+madu",
   },
   {
     id: 3,
@@ -31,17 +31,16 @@ const blogPosts = [
     slug: "mengenal-bumbu-tradisional-indonesia",
     image:
       "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80",
-      url:"https://www.hypermart.co.id/mengenal-bumbu-dapur-dan-manfaatnya/"
+    url: "https://www.hypermart.co.id/mengenal-bumbu-dapur-dan-manfaatnya/",
   },
   {
     id: 4,
     title: "Resep Es Cendol Enak Segar",
-    summary:
-      "Bahas Resep Enak Es Cendol.",
+    summary: "Bahas Resep Enak Es Cendol.",
     slug: "mengenal-resep-es-cendol",
     image:
       "https://www.shutterstock.com/image-photo/es-cendol-dawet-drink-made-600nw-2538351249.jpg",
-      url:"https://www.halodoc.com/artikel/3-resep-es-cendol-kekinian-yang-mudah-dibuat-enak-dan-segar"
+    url: "https://www.halodoc.com/artikel/3-resep-es-cendol-kekinian-yang-mudah-dibuat-enak-dan-segar",
   },
 ];
 
@@ -63,29 +62,101 @@ function Blog() {
   );
 
   return (
-    <div className="max-w-5xl mx-auto py-12 px-4 bg-gradient-to-b from-white via-gray-50 to-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 tracking-wide">
+    <div
+      className="
+        relative
+        max-w-5xl mx-auto py-12 px-4 min-h-screen
+        bg-gradient-to-b
+        from-white via-gray-50 to-gray-100
+        dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
+        text-gray-900 dark:text-gray-200
+      "
+    >
+      {/* Background Pattern */}
+     <svg
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 w-full h-full z-0"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <pattern
+      id="blogPattern"
+      x="0"
+      y="0"
+      width="160"
+      height="80"
+      patternUnits="userSpaceOnUse"
+    >
+      <text
+        x="10"
+        y="60"
+        fontSize="56"
+        fill="rgba(250, 204, 21, 0.3)" // kuning emas transparan
+        style={{ userSelect: "none" }}
+      >
+        📖
+      </text>
+      <text
+        x="60"
+        y="60"
+        fontSize="56"
+        fill="rgba(234, 179, 8, 0.3)"
+        style={{ userSelect: "none" }}
+      >
+        ✒️
+      </text>
+      <text
+        x="110"
+        y="60"
+        fontSize="56"
+        fill="rgba(202, 138, 4, 0.3)"
+        style={{ userSelect: "none" }}
+      >
+        🖋
+      </text>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#blogPattern)">
+    <animate
+      attributeName="opacity"
+      values="0.25;0.4;0.25"
+      dur="6s"
+      repeatCount="indefinite"
+    />
+  </rect>
+</svg>
+
+
+      <h1 className="relative text-3xl font-bold mb-6 text-center tracking-wide">
         Blog RoodFoodie
       </h1>
 
       {/* Input Pencarian */}
-      <div className="mb-10 flex justify-center">
+      <div className="relative mb-10 flex justify-center z-10">
         <input
           type="text"
           placeholder="Cari blog berdasarkan judul..."
-          className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          className="
+            w-full max-w-md px-4 py-2 border border-gray-300 rounded-md
+            focus:outline-none focus:ring-2 focus:ring-yellow-400
+            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200
+          "
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <ul className="space-y-10">
+      <ul className="space-y-10 relative z-10">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post, i) => (
             <motion.li
               key={post.id}
-              className="border rounded-lg p-6 bg-white shadow-md cursor-pointer
-                hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 ease-out flex flex-col md:flex-row gap-6"
+              className="
+                border rounded-lg p-6 bg-white shadow-md cursor-pointer
+                hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 ease-out
+                flex flex-col md:flex-row gap-6
+                dark:bg-gray-800 dark:border-gray-700
+              "
               custom={i}
               initial="hidden"
               animate="visible"
@@ -96,13 +167,18 @@ function Blog() {
                 src={post.image}
                 alt={post.title}
                 className="w-full md:w-48 h-32 object-cover rounded-lg shadow-sm flex-shrink-0"
+                loading="lazy"
               />
 
               {/* Content */}
               <div className="flex flex-col justify-between">
                 <div>
-                  <h2 className="text-2xl font-semibold mb-3 text-gray-800">{post.title}</h2>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{post.summary}</p>
+                  <h2 className="text-2xl font-semibold mb-3 text-gray-800 dark:text-gray-100">
+                    {post.title}
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                    {post.summary}
+                  </p>
                 </div>
 
                 {/* Link "Baca Selengkapnya" dengan hover underline */}
@@ -111,15 +187,15 @@ function Blog() {
                     href={post.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link-hover-yellow self-start font-semibold"
+                    className="group relative self-start font-semibold text-yellow-600 dark:text-yellow-400"
                   >
                     Baca Selengkapnya &rarr;
-                    <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span>
+                    <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
                   </a>
                 ) : (
                   <Link
                     to={`/blog/${post.slug}`}
-                    className="link-hover-yellow self-start font-semibold"
+                    className="group relative self-start font-semibold text-yellow-600 dark:text-yellow-400"
                   >
                     Baca Selengkapnya &rarr;
                     <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span>
@@ -129,7 +205,9 @@ function Blog() {
             </motion.li>
           ))
         ) : (
-          <p className="text-center text-gray-500">Tidak ada artikel yang cocok.</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            Tidak ada artikel yang cocok.
+          </p>
         )}
       </ul>
     </div>

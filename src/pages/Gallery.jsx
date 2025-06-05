@@ -66,24 +66,45 @@ function Gallery() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Galeri Foto</h1>
+    <div className="relative bg-white dark:bg-gray-900 transition-colors duration-500">
+      {/* Background Pattern */}
+     <svg
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 w-full h-full z-0"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <pattern id="foodPattern" x="0" y="0" width="160" height="60" patternUnits="userSpaceOnUse">
+      <text x="0" y="45" fontSize="36" fill="#ffb703" opacity="0.12">🍰</text>
+      <text x="55" y="45" fontSize="36" fill="#fb8500" opacity="0.12">🍕</text>
+      <text x="110" y="45" fontSize="36" fill="#219ebc" opacity="0.12">🍜</text>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#foodPattern)" />
+</svg>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {images.map((img) => (
-          <div
-            key={img.id}
-            className="cursor-pointer overflow-hidden rounded shadow hover:scale-105 transition-transform"
-            onClick={() => openLightbox(img)}
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              className="w-full h-48 object-cover"
-              loading="lazy"
-            />
-          </div>
-        ))}
+
+
+      {/* Konten Galeri */}
+      <div className="relative max-w-6xl mx-auto py-12 px-4">
+        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Galeri Foto</h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {images.map((img) => (
+            <div
+              key={img.id}
+              className="cursor-pointer overflow-hidden rounded shadow hover:scale-105 transition-transform"
+              onClick={() => openLightbox(img)}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-48 object-cover"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Lightbox */}

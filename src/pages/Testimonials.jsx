@@ -175,9 +175,9 @@ function Testimonials() {
     "★".repeat(count) + "☆".repeat(5 - count);
 
   return (
-    <div className="max-w-4xl mx-auto py-12 px-4">
+   <div className="max-w-4xl mx-auto py-12 px-4 bg-testimonial-pattern bg-white dark:bg-gray-900 transition-colors duration-500">
       <motion.h2
-        className="text-3xl font-bold mb-6 text-center"
+        className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -188,14 +188,14 @@ function Testimonials() {
       <div className="flex justify-center gap-2 flex-wrap mb-8">
         {["all", 5, 4, 3, 2, 1, "positive", "negative"].map((item) => (
           <button
-  key={item}
-  onClick={() => setFilter(item)}
-  className={`px-4 py-2 text-sm rounded-full font-medium transition-all duration-300 ease-in-out shadow-md ${
-    filter === item
-      ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white"
-      : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 hover:from-rose-400 hover:to-pink-400 hover:text-white"
-  }`}
->
+            key={item}
+            onClick={() => setFilter(item)}
+            className={`px-4 py-2 text-sm rounded-full font-medium transition-all duration-300 ease-in-out shadow-md ${
+              filter === item
+                ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white"
+                : "bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-200 hover:from-rose-400 hover:to-pink-400 hover:text-white"
+            }`}
+          >
             {item === "all"
               ? "Semua"
               : item === "positive"
@@ -226,16 +226,18 @@ function Testimonials() {
               <p className="text-yellow-500 mb-2 text-xl text-center">
                 {renderStars(rating)}
               </p>
-              <p className="text-lg italic mb-2 mx-auto text-center leading-relaxed w-full max-w-xs">
+              <p className="text-lg italic mb-2 mx-auto text-center leading-relaxed w-full max-w-xs text-gray-800 dark:text-gray-200">
                 "{message}"
               </p>
-              <p className="font-semibold text-red-600 text-center">- {name}</p>
+              <p className="font-semibold text-red-600 text-center dark:text-red-400">
+                - {name}
+              </p>
             </motion.div>
           ))}
         </Slider>
 
         {filteredTestimonials.length === 0 && (
-          <p className="text-center text-gray-500 italic mt-8">
+          <p className="text-center text-gray-500 dark:text-gray-400 italic mt-8">
             Tidak ada testimonial untuk filter ini.
           </p>
         )}
@@ -257,8 +259,8 @@ function Testimonials() {
       </AnimatePresence>
 
       {/* Form Section */}
-      <div className="mt-16 bg-white p-6 rounded-lg shadow-md border border-gray-200">
-        <h3 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+      <div className="mt-16 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+        <h3 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-gray-100">
           Tulis Testimoni Kamu
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -267,7 +269,7 @@ function Testimonials() {
             placeholder="Nama"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-white"
             required
           />
           <textarea
@@ -275,17 +277,17 @@ function Testimonials() {
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             rows={4}
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-white"
             required
           />
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-700">
+            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
               Rating:
             </label>
             <select
               value={form.rating}
               onChange={(e) => setForm({ ...form, rating: e.target.value })}
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 dark:text-white"
               required
             >
               {[5, 4, 3, 2, 1].map((r) => (
@@ -297,7 +299,7 @@ function Testimonials() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 text-gray-700">
+            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
               Pilih Avatar:
             </label>
             <div className="flex gap-3 mb-3">
@@ -308,7 +310,7 @@ function Testimonials() {
                   alt={`preset avatar ${idx + 1}`}
                   onClick={() => setForm({ ...form, avatar: url })}
                   className={`w-12 h-12 rounded-full cursor-pointer border-2 ${
-                    form.avatar === url ? "border-red-600" : "border-gray-300"
+                    form.avatar === url ? "border-red-600" : "border-gray-300 dark:border-gray-500"
                   }`}
                 />
               ))}
@@ -323,11 +325,12 @@ function Testimonials() {
               />
             </label>
           </div>
-<br /> <br />
+
+          <br /> <br />
           <button
             type="submit"
             className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white px-6 py-3 rounded shadow transition duration-300 ease-in-out
-hover:from-purple-600 hover:via-red-500 hover:to-red-600 w-full"
+      hover:from-purple-600 hover:via-red-500 hover:to-red-600 w-full"
           >
             Kirim Testimoni
           </button>
