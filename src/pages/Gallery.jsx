@@ -1,5 +1,6 @@
 // src/pages/Gallery.jsx
 import { useState } from "react";
+import { motion } from "framer-motion"; // ✅ Tambahkan baris ini
 
 const images = [
   {
@@ -90,20 +91,29 @@ function Gallery() {
         <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Galeri Foto</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {images.map((img) => (
-            <div
-              key={img.id}
-              className="cursor-pointer overflow-hidden rounded shadow hover:scale-105 transition-transform"
-              onClick={() => openLightbox(img)}
-            >
-              <img
-                src={img.src}
-                alt={img.alt}
-                className="w-full h-48 object-cover"
-                loading="lazy"
-              />
-            </div>
-          ))}
+         {images.map((img, index) => (
+  <motion.div
+    key={img.id}
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.3 }}
+    transition={{
+      delay: index * 0.1,
+      duration: 0.6,
+      ease: "easeOut",
+    }}
+    className="cursor-pointer overflow-hidden rounded shadow hover:scale-105 transition-transform duration-300"
+    onClick={() => openLightbox(img)}
+  >
+    <img
+      src={img.src}
+      alt={img.alt}
+      className="w-full h-48 object-cover"
+      loading="lazy"
+    />
+  </motion.div>
+))}
+
         </div>
       </div>
 

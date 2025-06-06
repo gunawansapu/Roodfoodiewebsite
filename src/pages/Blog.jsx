@@ -131,20 +131,38 @@ function Blog() {
         Blog RoodFoodie
       </h1>
 
-      {/* Input Pencarian */}
-      <div className="relative mb-10 flex justify-center z-10">
-        <input
-          type="text"
-          placeholder="Cari blog berdasarkan judul..."
-          className="
-            w-full max-w-md px-4 py-2 border border-gray-300 rounded-md
-            focus:outline-none focus:ring-2 focus:ring-yellow-400
-            dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200
-          "
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+     {/* Input Pencarian */}
+<div className="relative mb-10 flex justify-center z-10">
+  <input
+    type="text"
+    placeholder="Cari blog berdasarkan judul..."
+    className="
+      w-full max-w-md px-5 py-3 rounded-lg
+      border-2
+      border-gray-300
+      bg-white text-gray-800
+      placeholder-gray-500
+      transition-colors duration-300 ease-in-out
+
+      dark:bg-gray-900
+      dark:border-cyan-600
+      dark:text-cyan-300
+      dark:placeholder-cyan-400
+
+      focus:outline-none
+      focus:ring-0
+      focus:border-yellow-400
+      dark:focus:border-cyan-400
+
+      shadow-md
+      focus:shadow-[0_0_10px_2px_rgba(255,204,0,0.75)]
+      dark:focus:shadow-[0_0_15px_3px_rgba(0,255,255,0.9)]
+    "
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</div>
+
 
       <ul className="space-y-10 relative z-10">
         {filteredPosts.length > 0 ? (

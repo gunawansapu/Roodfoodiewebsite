@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import { motion, AnimatePresence } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import FireEffect from "./FireEffect";
 
 const initialTestimonials = [
   {
@@ -76,7 +77,6 @@ const initialTestimonials = [
     rating: 1,
   },
 ];
-
 const presetAvatars = [
   "https://randomuser.me/api/portraits/men/1.jpg",
   "https://randomuser.me/api/portraits/women/2.jpg",
@@ -97,17 +97,17 @@ function Testimonials() {
   const sliderRef = useRef(null);
 
   useEffect(() => {
-  try {
-    const stored = JSON.parse(localStorage.getItem("testimonials"));
-    if (Array.isArray(stored) && stored.length > 0) {
-      setTestimonials(stored);
-    } else {
+    try {
+      const stored = JSON.parse(localStorage.getItem("testimonials"));
+      if (Array.isArray(stored) && stored.length > 0) {
+        setTestimonials(stored);
+      } else {
+        setTestimonials(initialTestimonials);
+      }
+    } catch {
       setTestimonials(initialTestimonials);
     }
-  } catch {
-    setTestimonials(initialTestimonials);
-  }
-}, []);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("testimonials", JSON.stringify(testimonials));
@@ -159,23 +159,36 @@ function Testimonials() {
     reader.readAsDataURL(file);
   };
 
-  const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 4000,
-  arrows: false,
-};
+  // SLIDER LOGIC: ambil max 2 testimoni baru + testimoni ID tetap (misalnya ID 9, 3, 5)
+  const sliderTestimonialIds = [9, 3, 5];
+  const defaultSliderTestimonials = testimonials.filter((t) =>
+    sliderTestimonialIds.includes(t.id)
+  );
+  const userTestimonials = testimonials.filter(
+    (t) => !sliderTestimonialIds.includes(t.id)
+  );
+  const sliderTestimonials = [
+    ...userTestimonials.slice(0, 2),
+    ...defaultSliderTestimonials,
+  ].slice(0, 5);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: false,
+    initialSlide: 0,
+  };
 
   const renderStars = (count) =>
     "★".repeat(count) + "☆".repeat(5 - count);
 
   return (
-   <div className="max-w-4xl mx-auto py-12 px-4 bg-testimonial-pattern bg-white dark:bg-gray-900 transition-colors duration-500">
+    <div className="max-w-4xl mx-auto py-12 px-4 bg-testimonial-pattern bg-white dark:bg-gray-900 transition-colors duration-500">
       <motion.h2
         className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white"
         initial={{ opacity: 0, y: -20 }}
@@ -183,34 +196,69 @@ function Testimonials() {
       >
         Apa Kata Pelanggan Kami
       </motion.h2>
+{/* Filter Buttons */}
+<div className="flex justify-center gap-2 flex-wrap mb-8">
+  {["all", 5, 4, 3, 2, 1, "positive", "negative"].map((item) => (
+   <motion.button
+  key={item}
+  onClick={() => setFilter(item)}
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+  className={`relative overflow-hidden px-4 py-2 text-sm rounded-full font-bold text-white shadow-lg ${
+    filter === item
+      ? "bg-gradient-to-r from-red-600 to-yellow-400"
+      : "bg-gray-700"
+  }`}
+  style={{ textShadow: "0 0 6px rgba(0,0,0,0.7)", filter: "url(#flame)" }}
+>
+  {/* Background api dengan mix-blend-mode supaya gak nutup teks */}
+  <span className="absolute inset-0 -z-10 animate-flame bg-gradient-to-r from-yellow-300 via-orange-500 to-red-600 opacity-80 blur-[6px] mix-blend-screen" />
 
-      {/* Filter Buttons */}
-      <div className="flex justify-center gap-2 flex-wrap mb-8">
-        {["all", 5, 4, 3, 2, 1, "positive", "negative"].map((item) => (
-          <button
-            key={item}
-            onClick={() => setFilter(item)}
-            className={`px-4 py-2 text-sm rounded-full font-medium transition-all duration-300 ease-in-out shadow-md ${
-              filter === item
-                ? "bg-gradient-to-r from-rose-500 to-pink-500 text-white"
-                : "bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 text-gray-700 dark:text-gray-200 hover:from-rose-400 hover:to-pink-400 hover:text-white"
-            }`}
-          >
-            {item === "all"
-              ? "Semua"
-              : item === "positive"
-              ? "Review Baik"
-              : item === "negative"
-              ? "Review Buruk"
-              : `Bintang ${item}`}
-          </button>
-        ))}
-      </div>
+  {item === "all"
+    ? "Semua"
+    : item === "positive"
+    ? "Review Baik"
+    : item === "negative"
+    ? "Review Buruk"
+    : `Bintang ${item}`}
 
-      {/* Slider Section */}
+  <svg className="absolute inset-0 -z-20 w-full h-full" aria-hidden="true">
+    <filter id="flame" x="0" y="0" width="100%" height="100%">
+      <feTurbulence
+        id="turbulence"
+        baseFrequency="0.02 0.05"
+        numOctaves="3"
+        result="turbulence"
+        seed="2"
+      />
+      <feDisplacementMap
+        in2="turbulence"
+        in="SourceGraphic"
+        scale="8"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+     <animate
+  href="#turbulence"
+  attributeName="baseFrequency"
+  dur="4s"
+  values="0.02 0.05;0.03 0.06;0.02 0.05"
+  repeatCount="indefinite"
+/>
+    </filter>
+  </svg>
+</motion.button>
+  ))}
+</div>
+
+
+      {/* SLIDER */}
+      <h3 className="text-xl font-semibold mb-4 text-center text-gray-700 dark:text-gray-200">
+        Testimoni Pilihan
+      </h3>
       <div className="relative">
-        <Slider {...settings} ref={sliderRef} key={filteredTestimonials.length}>
-          {filteredTestimonials.map(({ id, name, message, avatar, rating }) => (
+        <Slider {...settings} ref={sliderRef} key={sliderTestimonials.length}>
+          {sliderTestimonials.map(({ id, name, message, avatar, rating }) => (
             <motion.div
               key={id}
               className="px-6 flex flex-col items-center"
@@ -235,12 +283,48 @@ function Testimonials() {
             </motion.div>
           ))}
         </Slider>
+      </div>
 
-        {filteredTestimonials.length === 0 && (
-          <p className="text-center text-gray-500 dark:text-gray-400 italic mt-8">
-            Tidak ada testimonial untuk filter ini.
-          </p>
-        )}
+      {/* FILTERED TESTIMONIAL LIST */}
+      <div className="mt-12 grid gap-6 md:grid-cols-2">
+     {filteredTestimonials.map(({ id, name, message, rating, avatar }) => (
+  <motion.div
+    key={id}
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{
+      type: "spring",
+      stiffness: 100,
+      damping: 14,
+      mass: 0.8,
+    }}
+    whileHover={{
+      scale: 1.03,
+      transition: {
+        type: "spring",
+        stiffness: 120,
+        damping: 12,
+      },
+    }}
+    className="p-6 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out"
+  >
+    <div className="flex items-center gap-4 mb-4">
+      <img
+        src={avatar}
+        alt={name}
+        className="w-14 h-14 rounded-full object-cover border-2 border-rose-500 shadow-sm"
+      />
+      <div>
+        <p className="font-semibold text-rose-600 dark:text-rose-400 text-base">{name}</p>
+        <p className="text-yellow-500">{renderStars(rating)}</p>
+      </div>
+    </div>
+    <p className="text-gray-700 dark:text-gray-200 italic leading-relaxed">
+      "{message}"
+    </p>
+  </motion.div>
+))}
       </div>
 
       {/* Notification */}
@@ -258,7 +342,7 @@ function Testimonials() {
         )}
       </AnimatePresence>
 
-      {/* Form Section */}
+      {/* Form */}
       <div className="mt-16 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
         <h3 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-gray-100">
           Tulis Testimoni Kamu
@@ -310,7 +394,9 @@ function Testimonials() {
                   alt={`preset avatar ${idx + 1}`}
                   onClick={() => setForm({ ...form, avatar: url })}
                   className={`w-12 h-12 rounded-full cursor-pointer border-2 ${
-                    form.avatar === url ? "border-red-600" : "border-gray-300 dark:border-gray-500"
+                    form.avatar === url
+                      ? "border-red-600"
+                      : "border-gray-300 dark:border-gray-500"
                   }`}
                 />
               ))}
@@ -326,11 +412,10 @@ function Testimonials() {
             </label>
           </div>
 
-          <br /> <br />
           <button
             type="submit"
             className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white px-6 py-3 rounded shadow transition duration-300 ease-in-out
-      hover:from-purple-600 hover:via-red-500 hover:to-red-600 w-full"
+        hover:from-purple-600 hover:via-red-500 hover:to-red-600 w-full"
           >
             Kirim Testimoni
           </button>
