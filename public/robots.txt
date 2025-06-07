@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://roodfoodierestaurant.netlify.app/sitemap.xml
