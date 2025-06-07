@@ -5,7 +5,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import { Link, useNavigate } from 'react-router-dom';
 import '../style/slidercustom.css';
 
-
 const menuAndalan = [
   {
     id: 1,
@@ -32,6 +31,11 @@ const fadeInLeft = {
 const fadeInRight = {
   hidden: { opacity: 0, x: 50 },
   visible: { opacity: 1, x: 0 }
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 }
 };
 
 const images = [
@@ -97,7 +101,7 @@ function Home() {
           className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-20"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.div variants={fadeInLeft}>
@@ -130,7 +134,13 @@ function Home() {
         </motion.div>
 
         {/* Menu Andalan */}
-        <div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
+          variants={fadeInUp}
+        >
           <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Menu Andalan Kami</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {menuAndalan.map((item) => (
@@ -154,10 +164,17 @@ function Home() {
               </Link>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Cara Pesan */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
+          variants={fadeInUp}
+        >
           <h2 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white">Cara Pesan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {[
@@ -172,10 +189,17 @@ function Home() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Hubungi Kami */}
-        <div className="text-center">
+        <motion.div
+          className="text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.7 }}
+          variants={fadeInUp}
+        >
           <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Punya Pertanyaan?</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6">
             Hubungi kami melalui Whatsapp atau kunjungi lokasi untuk layanan terbaik.
@@ -190,10 +214,17 @@ function Home() {
               Kontak Kami
             </Link>
           </div>
-        </div>
+        </motion.div>
 
         {/* Lokasi */}
-        <section className="py-12 bg-gray-50 dark:bg-gray-800 rounded-xl">
+        <motion.section
+          className="py-12 bg-gray-50 dark:bg-gray-800 rounded-xl"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8 }}
+          variants={fadeInUp}
+        >
           <div className="max-w-6xl mx-auto px-4">
             <h3 className="text-3xl font-bold text-gray-800 dark:text-white mb-4 text-center">Lokasi Kami</h3>
             <div className="w-full rounded-lg overflow-hidden shadow-lg border border-gray-300 dark:border-gray-700">
@@ -208,7 +239,7 @@ function Home() {
               ></iframe>
             </div>
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   );

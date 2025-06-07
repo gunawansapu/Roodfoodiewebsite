@@ -151,19 +151,20 @@ function Products() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredProducts.map(({ id, name, category, price, image }, index) => (
-              <Parallax key={id} speed={3}>
-                <motion.div
-                  className="border rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-800 transform transition-all hover:scale-[1.03] hover:shadow-2xl"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: index * 0.1,
-                    ease: "easeOut",
-                    type: "spring",
-                  }}
-                  viewport={{ once: true }}
-                >
+  <Parallax key={id} speed={3}>
+    <motion.div
+      className="border rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-800 transform transition-all hover:scale-[1.03] hover:shadow-2xl"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -30 }} // animasi keluar saat elemen hilang
+      transition={{
+        duration: 0.7,
+        delay: index * 0.1,
+        ease: "easeOut",
+        type: "spring",
+      }}
+      viewport={{ once: false, amount: 0.4 }} // bisa trigget ulang jika scroll naik turun
+    >
                   <motion.img
                     src={image}
                     alt={name}

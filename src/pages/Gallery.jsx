@@ -1,6 +1,5 @@
-// src/pages/Gallery.jsx
 import { useState } from "react";
-import { motion } from "framer-motion"; // ✅ Tambahkan baris ini
+import { motion } from "framer-motion";
 
 const images = [
   {
@@ -69,51 +68,60 @@ function Gallery() {
   return (
     <div className="relative bg-white dark:bg-gray-900 transition-colors duration-500">
       {/* Background Pattern */}
-     <svg
-  aria-hidden="true"
-  className="pointer-events-none absolute inset-0 w-full h-full z-0"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <defs>
-    <pattern id="foodPattern" x="0" y="0" width="160" height="60" patternUnits="userSpaceOnUse">
-      <text x="0" y="45" fontSize="36" fill="#ffb703" opacity="0.12">🍰</text>
-      <text x="55" y="45" fontSize="36" fill="#fb8500" opacity="0.12">🍕</text>
-      <text x="110" y="45" fontSize="36" fill="#219ebc" opacity="0.12">🍜</text>
-    </pattern>
-  </defs>
-  <rect width="100%" height="100%" fill="url(#foodPattern)" />
-</svg>
-
-
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 w-full h-full z-0"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <pattern
+            id="foodPattern"
+            x="0"
+            y="0"
+            width="160"
+            height="60"
+            patternUnits="userSpaceOnUse"
+          >
+            <text x="0" y="45" fontSize="36" fill="#ffb703" opacity="0.12">🍰</text>
+            <text x="55" y="45" fontSize="36" fill="#fb8500" opacity="0.12">🍕</text>
+            <text x="110" y="45" fontSize="36" fill="#219ebc" opacity="0.12">🍜</text>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#foodPattern)" />
+      </svg>
 
       {/* Konten Galeri */}
       <div className="relative max-w-6xl mx-auto py-12 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Galeri Foto</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">
+          Galeri Foto
+        </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-         {images.map((img, index) => (
-  <motion.div
-    key={img.id}
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{
-      delay: index * 0.1,
-      duration: 0.6,
-      ease: "easeOut",
-    }}
-    className="cursor-pointer overflow-hidden rounded shadow hover:scale-105 transition-transform duration-300"
-    onClick={() => openLightbox(img)}
-  >
-    <img
-      src={img.src}
-      alt={img.alt}
-      className="w-full h-48 object-cover"
-      loading="lazy"
-    />
-  </motion.div>
-))}
-
+          {images.map((img, index) => (
+            <motion.div
+              key={img.id}
+              initial={{ opacity: 0, y: 60, scale: 0.95, rotateX: -10 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{
+                delay: index * 0.07,
+                duration: 0.6,
+                ease: "easeOut",
+              }}
+              className="cursor-pointer overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 bg-white dark:bg-gray-800"
+              onClick={() => openLightbox(img)}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-48 object-cover rounded-t-xl"
+                loading="lazy"
+              />
+              <div className="px-4 py-2 text-center text-sm font-medium text-gray-700 dark:text-gray-200">
+                {img.alt}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
 
