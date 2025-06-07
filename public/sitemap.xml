@@ -3,19 +3,19 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://roodfoodierestaurant.netlify.app/</loc>
+    <loc>https://roodfoodierestaurantwebsite.netlify.app/</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://roodfoodierestaurant.netlify.app/menu</loc>
+    <loc>https://roodfoodierestaurantwebsite.netlify.app/menu</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://roodfoodierestaurant.netlify.app/kontak</loc>
+    <loc>https://roodfoodierestaurantwebsite.netlify.app/kontak</loc>
     <lastmod>2025-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
