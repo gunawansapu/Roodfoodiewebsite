@@ -4,18 +4,18 @@
 @tailwind utilities;
 @import "leaflet/dist/leaflet.css";
 
-
+/* Reset global font */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Style link */
 a {
   font-weight: 500;
   color: yellow;
@@ -27,8 +27,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   background-repeat: repeat;
@@ -36,11 +34,13 @@ body {
   background-color: #ffffff; /* Warna dasar */
 }
 
+/* Judul besar */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Style button */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -53,31 +53,27 @@ button {
 }
 button:hover {
   border-color: #646cff;
+  background-color: yellow;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  a:hover {
-    color: rgb(38, 204, 219);
-  }
-}
-button:hover {
-  background-color: yellow;
+/* Responsif container root tanpa width:100% */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  /* width: 100%;  <-- DIHAPUS */
+  /* height: 100%; <-- DIHAPUS */
 }
 
-html, body, #root {
- margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
+/* Styling image pada slick carousel */
 .slick-slide img {
   border: 2px solid red;
 }
 
+/* Custom link hover kuning */
 .link-hover-yellow {
   color: black;
   position: relative;
@@ -100,4 +96,11 @@ html, body, #root {
 
 .link-hover-yellow:hover span {
   width: 100%;
+}
+
+/* Tambahan support prefered color scheme */
+@media (prefers-color-scheme: light) {
+  a:hover {
+    color: rgb(38, 204, 219);
+  }
 }

@@ -1,5 +1,4 @@
 // src/App.jsx
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -10,42 +9,26 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Wishlist from './components/Wishlist';  // ini harusnya di pages, bukan components biar rapi
+import Wishlist from './components/Wishlist';
 import ProductDetail from "./pages/ProductDetail";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Checkout from "./pages/Checkout";
-import ScrollToHash from './components/ScrollToHash';  // import komponen baru
-
+import ScrollToHash from './components/ScrollToHash';
 import { WishlistProvider } from './context/WishlistContext';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
+
 
 function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
-
   return (
     <WishlistProvider>
       <Router>
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300">
-          <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+          <Navbar />
 
-          <main className="w-full max-w-screen-xl mx-auto min-h-screen pt-16 px-4">
+          <main className="w-full min-h-screen pt-16">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -58,9 +41,10 @@ function App() {
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/checkout" element={<Checkout />} />
             </Routes>
-            <ScrollToHash /> {/* PASANG DI SINI */}
+            <ScrollToHash />
           </main>
-<ToastContainer />
+
+          <ToastContainer />
           <Footer />
         </div>
       </Router>
