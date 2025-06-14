@@ -9,9 +9,9 @@ const images = [
   { id: 5, src: "https://www.astronauts.id/blog/wp-content/uploads/2023/12/Daftar-Kue-Tradisional-Indonesia-Populer-Dari-Berbagai-Daerah.jpg", alt: "Kue Tradisional" },
   { id: 6, src: "https://www.shutterstock.com/image-photo/es-cendol-dawet-drink-made-600nw-2538351249.jpg", alt: "Es Cendol Segar" },
   { id: 7, src: "https://cdn1-production-images-kly.akamaized.net/OUqqLu3BtXjfJac0EtxLVMETVws=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3128504/original/083078300_1589462572-shutterstock_435468841.jpg", alt: "Es Teh Manis" },
-  { id: 8, src: "https://indonesiakaya.com/wp-content/uploads/2023/04/at_Artboard_4.jpg", alt: "Es Teh Manis" },
-  { id: 9, src: "https://www.ninevibe.com/storage/statement-images/OD3rY1bPCixDb8NP2Z8Pi2325o3L47HKSknNyK0I.webp", alt: "Es Teh Manis" },
-  { id: 10, src: "https://i.pinimg.com/736x/a0/df/cf/a0dfcff4e2218364adc12cd4c96c50c2.jpg", alt: "Es Teh Manis" },
+  { id: 8, src: "https://indonesiakaya.com/wp-content/uploads/2023/04/at_Artboard_4.jpg", alt: "Ayam Bakar Taliwang" },
+  { id: 9, src: "https://www.ninevibe.com/storage/statement-images/OD3rY1bPCixDb8NP2Z8Pi2325o3L47HKSknNyK0I.webp", alt: "Jus Alpukat" },
+  { id: 10, src: "https://i.pinimg.com/736x/a0/df/cf/a0dfcff4e2218364adc12cd4c96c50c2.jpg", alt: "Bakso Malang" },
 ];
 
 function Gallery() {
