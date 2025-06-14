@@ -73,23 +73,26 @@ function Home() {
 
       <div className="max-w-7xl mx-auto">
 
-        {/* TENTANG KAMI */}
-        <section className="py-24 px-4">
-          <motion.div className="grid md:grid-cols-2 gap-12 items-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ duration: 0.8 }}>
-            <div>
-              <h2 className="text-4xl font-bold mb-6 text-gray-800 dark:text-white">Tentang <span className="text-red-500">RoodFoodie</span></h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                Berawal dari kecintaan memasak, RoodFoodie didirikan oleh Rudie Siswanto sejak 2017, menghadirkan ayam bakar khas perpaduan cita rasa Jawa Tengah yang manis dan Jawa Timur yang gurih asin.
-              </p>
-              <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                Menu andalan ini berhasil mengantarkan RoodFoodie meraih Juara Nasional Festival Jajan Bango 2018. Hingga kini, RoodFoodie terus menjaga warisan kuliner nusantara dengan aneka produk ayam ungkep frozen, serundeng, kremes, dan enam varian sambal khas.
-              </p>
-            </div>
-            <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 120 }} className="rounded-xl overflow-hidden shadow-lg">
-              <img src="https://roodfoodie.files.wordpress.com/2018/06/wa-roodfoodie.png?w=496" alt="Tentang Kami" className="object-cover w-full" />
-            </motion.div>
-          </motion.div>
-        </section>
+       {/* TENTANG KAMI */}
+<section className="py-24 px-4">
+  <motion.div className="grid md:grid-cols-2 gap-12 items-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ duration: 0.8 }}>
+    <div className="text-center md:text-left">
+      <h2 className="text-4xl font-bold mb-6 text-gray-800 dark:text-white">
+        Tentang <span className="text-red-500">RoodFoodie</span>
+      </h2>
+      <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+        Berawal dari kecintaan memasak, RoodFoodie didirikan oleh Rudie Siswanto sejak 2017, menghadirkan ayam bakar khas perpaduan cita rasa Jawa Tengah yang manis dan Jawa Timur yang gurih asin.
+      </p>
+      <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+        Menu andalan ini berhasil mengantarkan RoodFoodie meraih Juara Nasional Festival Jajan Bango 2018. Hingga kini, RoodFoodie terus menjaga warisan kuliner nusantara dengan aneka produk ayam ungkep frozen, serundeng, kremes, dan enam varian sambal khas.
+      </p>
+    </div>
+    <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 120 }} className="rounded-xl overflow-hidden shadow-lg">
+      <img src="https://roodfoodie.files.wordpress.com/2018/06/wa-roodfoodie.png?w=496" alt="Tentang Kami" className="object-cover w-full" />
+    </motion.div>
+  </motion.div>
+</section>
+
 
        {/* KEUNGGULAN */}
         <section className="py-24 px-4">
@@ -97,7 +100,7 @@ function Home() {
             className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
             initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.8 }}
           >
-            Kenapa Pilih RoodFoodie?
+            Kenapa Pilih <span className='text-red-500'>RoodFoodie?</span>
           </motion.h2>
           <div className="grid md:grid-cols-4 gap-10 text-center">
             {[
