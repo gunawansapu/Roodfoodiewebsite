@@ -315,13 +315,13 @@ function LocationPicker({ onLocationSelect }) {
   });
   return null;
 }
-
 function Checkout() {
   const location = useLocation();
   const navigate = useNavigate();
   const products = location.state?.products || [];
   const { removeFromWishlist } = useWishlist();
   const [loading, setLoading] = useState(false);
+  const [proof, setProof] = useState(null);
 
   const [address, setAddress] = useState({
     street: "",
@@ -339,25 +339,16 @@ function Checkout() {
   });
 
   const [mapCenter, setMapCenter] = useState([-6.9, 110.0]);
-
-  // list kecamatan dari objek kecamatanData (key-nya adalah kabupaten, value-nya array kecamatan)
   const kabupatenList = Object.keys(kecamatanData);
-  // list kecamatan sesuai kota/kabupaten di alamat
   const kecamatanList = address.city && kecamatanData[address.city] ? kecamatanData[address.city] : [];
-
-  // daftar desa sesuai kecamatan yang dipilih
   const desaList = address.district && desaData[address.district] ? desaData[address.district] : [];
 
-
   useEffect(() => {
-    toast.info(
-      "📍 Silakan isi alamat pengiriman secara manual atau pilih dari peta",
-      {
-        autoClose: 4000,
-        position: "top-center",
-        toastId: "alamat-toast", // <- Ini yang mencegah toast dobel
-      }
-    );
+    toast.info("📍 Silakan isi alamat pengiriman secara manual atau pilih dari peta", {
+      autoClose: 4000,
+      position: "top-center",
+      toastId: "alamat-toast",
+    });
   }, []);
 
   const totalHarga = products.reduce(
@@ -370,20 +361,47 @@ function Checkout() {
     setMapCenter([loc.lat, loc.lng]);
   };
 
-  const handleConfirmPayment = () => {
-    if (
-      !address.city ||
-      !address.province ||
-      !address.postalCode
-    ) {
+  const handleConfirmPayment = async () => {
+    if (!address.city || !address.province || !address.postalCode) {
       toast.warn("Mohon lengkapi alamat pengiriman terlebih dahulu!");
       return;
     }
 
+    if (!proof) {
+      toast.warn("Mohon upload bukti pembayaran terlebih dahulu!");
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("🎉 Pembayaran berhasil! Terima kasih telah berbelanja.", {
+
+    const payload = {
+      produk: products.map(p => `${p.name} (${p.quantity || 1})`).join(", "),
+      total: totalHarga,
+      bukti_bayar: proof, // sudah base64
+      rt: address.rt,
+      rw: address.rw,
+      dusun: address.dusun,
+      desa: address.desa,
+      kecamatan: address.district,
+      alamat_kota: address.city,
+      alamat_provinsi: address.province,
+      kode_pos: address.postalCode,
+      alamat_negara: address.country || "Indonesia",
+      lat: address.lat,
+      lng: address.lng,
+      created_at: new Date().toISOString(),
+    };
+
+    try {
+      await fetch("https://685015d3e7c42cfd17975480.mockapi.io/buktibayar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      toast.success("🎉 Pembayaran berhasil dan bukti dikirim!", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -392,9 +410,13 @@ function Checkout() {
         products.forEach((product) => removeFromWishlist(product.id));
         navigate("/wishlist");
       }, 3100);
-    }, 1500);
+    } catch (error) {
+      toast.error("❌ Gagal mengirim bukti bayar. Coba lagi.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
-
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
@@ -408,141 +430,62 @@ function Checkout() {
       </motion.h2>
 
       <div className="mb-6 p-4 bg-yellow-100 border border-yellow-400 rounded text-yellow-800">
-  <strong>Catatan Pengiriman:</strong>  
-  Pengiriman hanya tersedia untuk wilayah Semarang, Kendal, Demak, dan Kudus.  
-  Mohon pastikan alamat pengiriman Anda berada di salah satu wilayah tersebut.
-</div>
-
+        <strong>Catatan Pengiriman:</strong> Pengiriman hanya tersedia untuk wilayah Semarang, Kendal, Demak, dan Kudus.
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        {/* Form Alamat */}
         <div className="space-y-4">
           <h3 className="font-semibold text-lg">📄 Isi Alamat Manual:</h3>
           <div className="flex gap-2">
-            <input
-              className="w-1/3 p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-              placeholder="RT"
-              value={address.rt}
-              onChange={(e) => setAddress({ ...address, rt: e.target.value })}
-            />
-            <input
-              className="w-1/3 p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-              placeholder="RW"
-              value={address.rw}
-              onChange={(e) => setAddress({ ...address, rw: e.target.value })}
-            />
-            <input
-              className="w-1/3 p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-              placeholder="Dusun / Dukuh"
-              value={address.dusun}
-              onChange={(e) => setAddress({ ...address, dusun: e.target.value })}
-            />
+            <input className="w-1/3 p-2 border rounded" placeholder="RT" value={address.rt} onChange={(e) => setAddress({ ...address, rt: e.target.value })} />
+            <input className="w-1/3 p-2 border rounded" placeholder="RW" value={address.rw} onChange={(e) => setAddress({ ...address, rw: e.target.value })} />
+            <input className="w-1/3 p-2 border rounded" placeholder="Dusun / Dukuh" value={address.dusun} onChange={(e) => setAddress({ ...address, dusun: e.target.value })} />
           </div>
 
-          <select
-            className="w-full p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-            value={address.city}
-            onChange={(e) => {
-              const kab = e.target.value;
-              setAddress({
-                address,
-                city: kab,
-                district: "",
-                desa: "",
-                province: "",
-              });
-            }}
-          >
+          <select className="w-full p-2 border rounded" value={address.city} onChange={(e) => {
+            const kab = e.target.value;
+            setAddress({ ...address, city: kab, district: "", desa: "", province: "" });
+          }}>
             <option value="">Pilih Kabupaten/Kota</option>
-            {kabupatenList.map((kab) => (
-              <option key={kab} value={kab}>
-                {kab}
-              </option>
-            ))}
+            {kabupatenList.map((kab) => <option key={kab} value={kab}>{kab}</option>)}
           </select>
 
-          <select
-            className="w-full p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-            value={address.district}
-            onChange={(e) => {
-              const kec = e.target.value;
-              setAddress({
-                ...address,
-                district: kec,
-                desa: "",
-              });
-            }}
-            disabled={!address.city}
-          >
+          <select className="w-full p-2 border rounded" value={address.district} onChange={(e) => setAddress({ ...address, district: e.target.value, desa: "" })} disabled={!address.city}>
             <option value="">Pilih Kecamatan</option>
-            {kecamatanList.map((kec) => (
-              <option key={kec} value={kec}>
-                {kec}
-              </option>
-            ))}
+            {kecamatanList.map((kec) => <option key={kec} value={kec}>{kec}</option>)}
           </select>
 
-          <select
-            className="w-full p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-            value={address.desa}
-            onChange={(e) => setAddress({ ...address, desa: e.target.value })}
-            disabled={!address.district}
-          >
+          <select className="w-full p-2 border rounded" value={address.desa} onChange={(e) => setAddress({ ...address, desa: e.target.value })} disabled={!address.district}>
             <option value="">Pilih Desa</option>
-            {desaList.map((desa) => (
-              <option key={desa.id} value={desa.name}>
-                {desa.name}
-              </option>
-            ))}
+            {desaList.map((desa) => <option key={desa.id} value={desa.name}>{desa.name}</option>)}
           </select>
 
-          <input
-            className="w-full p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-            placeholder="Provinsi"
-            value={address.province}
-            onChange={(e) => setAddress({ ...address, province: e.target.value })}
-          />
-          <input
-            className="w-full p-2 border rounded bg-white text-black border-gray-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"
-            placeholder="Kode Pos"
-            value={address.postalCode}
-            onChange={(e) => setAddress({ ...address, postalCode: e.target.value })}
-          />
+          <input className="w-full p-2 border rounded" placeholder="Provinsi" value={address.province} onChange={(e) => setAddress({ ...address, province: e.target.value })} />
+          <input className="w-full p-2 border rounded" placeholder="Kode Pos" value={address.postalCode} onChange={(e) => setAddress({ ...address, postalCode: e.target.value })} />
         </div>
 
+        {/* Peta */}
         <div>
           <h3 className="font-semibold text-lg mb-2">🗺️ Pilih Lokasi dari Peta:</h3>
-          <MapContainer
-            center={mapCenter}
-            zoom={13}
-            style={{ height: "300px", width: "100%", zIndex: 10 }}
-          >
-            <TileLayer
-              attribution="© OpenStreetMap"
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+          <MapContainer center={mapCenter} zoom={13} style={{ height: "300px", width: "100%", zIndex: 10 }}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <LocationPicker onLocationSelect={handleLocationSelect} />
-            {address.lat && address.lng && (
-              <Marker position={[address.lat, address.lng]} icon={markerIcon} />
-            )}
+            {address.lat && address.lng && <Marker position={[address.lat, address.lng]} icon={markerIcon} />}
           </MapContainer>
         </div>
       </div>
 
+      {/* Produk */}
       <div className="grid gap-4 mb-6">
         {products.map((product) => (
           <div key={product.id} className="border p-4 rounded shadow flex gap-4">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-32 h-32 object-cover rounded"
-            />
+            <img src={product.image} alt={product.name} className="w-32 h-32 object-cover rounded" />
             <div className="flex flex-col justify-between">
               <div>
                 <h3 className="text-xl font-semibold">{product.name}</h3>
                 <p className="text-gray-600">{product.category}</p>
-                <p className="text-gray-700">
-                  Qty: <span className="font-semibold">{product.quantity || 1}</span>
-                </p>
+                <p>Qty: <strong>{product.quantity || 1}</strong></p>
               </div>
               <p className="font-bold text-blue-600 text-lg">
                 Rp {(product.price * (product.quantity || 1)).toLocaleString()}
@@ -552,20 +495,38 @@ function Checkout() {
         ))}
       </div>
 
+      {/* Metode Pembayaran & Upload */}
       <div className="border p-4 rounded shadow mb-6">
         <h4 className="font-semibold text-lg mb-2">Pilih Metode Pembayaran:</h4>
         <ul className="mb-4">
           <li>✅ QRIS (Scan QR di bawah)</li>
           <li>✅ Transfer Bank: BCA 1234567890 a.n. ResQMeal</li>
         </ul>
-        <img
-          src="https://qris.interactive.co.id/homepage/images/assets/pay/harga/csan-qr-a.jpg"
-          alt="QRIS"
-          className="w-40 mx-auto mb-4"
-        />
+        <img src="https://qris.interactive.co.id/homepage/images/assets/pay/harga/csan-qr-a.jpg" alt="QRIS" className="w-40 mx-auto mb-4" />
+
+        <div className="mb-4">
+          <label className="block font-medium mb-2">Upload Bukti Bayar:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  setProof(reader.result); // simpan sebagai base64
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+          />
+        </div>
+
         <p className="text-xl font-bold text-blue-600 text-center mb-4">
           Total: Rp {totalHarga.toLocaleString()}
         </p>
+
         <motion.button
           onClick={handleConfirmPayment}
           disabled={loading}

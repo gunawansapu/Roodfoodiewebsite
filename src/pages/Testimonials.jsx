@@ -125,10 +125,41 @@ function Testimonials() {
     }
   }, [filter, testimonials]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, message, rating, avatar } = form;
-    if (!name.trim() || !message.trim() || !avatar || !rating) return;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const { name, message, rating, avatar } = form;
+
+  // Validasi lokal (seperti sebelumnya)
+  if (!name.trim() || !message.trim() || !avatar || !rating) return;
+
+  // Siapkan data untuk Formspree (hanya name dan message yang dikirim)
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("message", message);
+
+  try {
+    const response = await fetch("https://formspree.io/f/mjkrrjqy", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      setForm({
+        name: "",
+        message: "",
+        rating: "",
+        avatar: "",
+      });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Terjadi kesalahan saat mengirim testimoni.");
+  }
+
 
     const newTestimonial = {
       id: Date.now(),

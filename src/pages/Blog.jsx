@@ -107,16 +107,25 @@ function Blog() {
                         <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{post.summary}</p>
                       </div>
                       {post.url ? (
-                        <a href={post.url} target="_blank" rel="noopener noreferrer" className="group relative self-start font-semibold text-yellow-600 dark:text-yellow-400">
-                          Baca Selengkapnya &rarr;
-                          <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
-                        </a>
-                      ) : (
-                        <Link to={`/blog/${post.slug}`} className="group relative self-start font-semibold text-yellow-600 dark:text-yellow-400">
-                          Baca Selengkapnya &rarr;
-                          <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"></span>
-                        </Link>
-                      )}
+  <a
+    href={post.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative self-start font-semibold !text-red-600 dark:!text-yellow-200"
+  >
+    Baca Selengkapnya &rarr;
+    <span className="absolute left-0 -bottom-1 w-0 h-0.5 !bg-red-600 dark:!bg-yellow-400 transition-all group-hover:w-full"></span>
+  </a>
+) : (
+  <Link
+    to={`/blog/${post.slug}`}
+    className="group relative self-start font-semibold !text-red-600 dark:!text-yellow-400"
+  >
+    Baca Selengkapnya &rarr;
+    <span className="absolute left-0 -bottom-1 w-0 h-0.5 !bg-red-600 dark:!bg-yellow-400 transition-all group-hover:w-full"></span>
+  </Link>
+)}
+
                     </div>
                   </motion.li>
                 </Tilt>

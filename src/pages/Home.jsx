@@ -75,7 +75,15 @@ function Home() {
 
        {/* TENTANG KAMI */}
 <section className="py-24 px-4">
-  <motion.div className="grid md:grid-cols-2 gap-12 items-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ duration: 0.8 }}>
+ <motion.div
+  className="grid md:grid-cols-2 gap-12 items-center"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeIn}
+  transition={{ duration: 0.8 }}
+>
+
     <div className="text-center md:text-left">
       <h2 className="text-4xl font-bold mb-6 text-gray-800 dark:text-white">
         Tentang <span className="text-red-500">RoodFoodie</span>
@@ -95,51 +103,69 @@ function Home() {
 
 
        {/* KEUNGGULAN */}
-        <section className="py-24 px-4">
-          <motion.h2 
-            className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.8 }}
+       <section className="py-24 px-4">
+      <motion.h2
+        className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8 }}
+      >
+        Kenapa Pilih <span className="text-red-500">RoodFoodie?</span>
+      </motion.h2>
+
+      <div className="grid md:grid-cols-4 gap-10 text-center">
+        {[
+          { lottie: Food, title: 'Rasa Otentik', desc: 'Perpaduan cita rasa Jawa Tengah & Timur.' },
+          { lottie: frozen, title: 'Frozen Higienis', desc: 'Tahan 6 bulan, tanpa pengawet.' },
+          { lottie: delivery, title: 'Pengiriman Cepat', desc: 'Packing aman, pengiriman kilat.' },
+          { lottie: tested, title: 'Sudah Teruji', desc: 'Juara Nasional Jajan Bango 2018.' },
+        ].map((item, i) => (
+          <motion.div
+            key={i}
+            className="p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.3 }}
+            variants={fadeInUp}
+            transition={{ duration: 0.5, delay: i * 0.2 }}
           >
-            Kenapa Pilih <span className='text-red-500'>RoodFoodie?</span>
-          </motion.h2>
-          <div className="grid md:grid-cols-4 gap-10 text-center">
-            {[
-              { lottie: Food, title: 'Rasa Otentik', desc: 'Perpaduan cita rasa Jawa Tengah & Timur.' },
-              { lottie: frozen, title: 'Frozen Higienis', desc: 'Tahan 6 bulan, tanpa pengawet.' },
-              { lottie: delivery, title: 'Pengiriman Cepat', desc: 'Packing aman, pengiriman kilat.' },
-              { lottie: tested, title: 'Sudah Teruji', desc: 'Juara Nasional Jajan Bango 2018.' }
-            ].map((item, i) => (
-              <motion.div 
-                key={i} 
-                className="p-8 bg-white dark:bg-gray-900 rounded-xl shadow-lg"
-                initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.5, delay: i * 0.2 }}
-              >
-                <div className="w-32 h-32 mx-auto mb-6">
-                  <Lottie animationData={item.lottie} loop={true} />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">{item.title}</h3>
-                <p className="text-lg text-gray-600 dark:text-gray-300">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+            <div className="w-32 h-32 mx-auto mb-6">
+              <Lottie animationData={item.lottie} loop />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-3">{item.title}</h3>
+            <p className="text-lg text-gray-600 dark:text-gray-300">{item.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
 
         {/* MENU ANDALAN */}
        {/* MENU ANDALAN */}
         <section className="py-24 px-4">
-          <motion.div 
-            className="text-center"
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.8 }}
-          >
+         <motion.div 
+  className="text-center"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeInUp}
+  transition={{ duration: 0.8 }}
+>
+
             <h2 className="text-4xl font-bold mb-12 text-gray-800 dark:text-white">Menu Andalan Kami</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {menuAndalan.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  whileHover={{ scale: 1.03 }}
-                  initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}
-                  variants={fadeInUp} transition={{ duration: 0.5, delay: i * 0.2 }}
-                >
+               <motion.div
+  key={item.id}
+  whileHover={{ scale: 1.03 }}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeInUp}
+  transition={{ duration: 0.5, delay: i * 0.2 }}
+>
+
                   <Link to={`/products/${item.id}`} className="group">
                     <div className="rounded-lg overflow-hidden shadow-xl bg-white dark:bg-gray-900">
                       <div className="h-64 overflow-hidden">
@@ -157,22 +183,44 @@ function Home() {
         </section>
 
        {/* PROMO */}
-        <section className="py-16 px-4 bg-gradient-to-r from-red-500 to-yellow-400 text-white text-center rounded-xl mx-4 my-10 shadow-lg">
-          <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl font-bold mb-4">Promo Spesial Bulan Ini!</h2>
-            <p className="text-xl mb-6">Dapatkan diskon 20% untuk pembelian Paket Ayam Ungkep + Sambal Komplit</p>
-            <Link to="/products" className="bg-white text-red-500 px-6 py-3 rounded-full font-semibold shadow-lg hover:bg-gray-100 transition">Lihat Promo</Link>
-          </motion.div>
-        </section>
+      <section
+  className="py-16 px-4 bg-cover bg-center text-white text-center rounded-xl mx-4 my-10 shadow-lg"
+  style={{
+    backgroundImage: "url('https://marketplace.canva.com/EAFG8lYj1xA/2/0/800w/canva-merah-dan-putih-modern-promo-merdeka-makanan-indonesia-banner-landscape-az1dtkQx_Xg.jpg')",
+  }}
+>
+ <motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeInUp}
+  transition={{ duration: 0.8 }}
+  className="bg-black/30 backdrop-blur-sm p-8 rounded-xl inline-block max-w-3xl mx-auto"
+>
+
+    <h2 className="text-4xl font-bold mb-4">Promo Spesial Bulan Ini!</h2>
+    <p className="text-xl mb-6">Dapatkan diskon 20% untuk pembelian Paket Ayam Ungkep + Sambal Komplit</p>
+    <Link
+      to="/products"
+      className="bg-yellow-400 text-black px-6 py-3 rounded-full font-semibold shadow-md hover:bg-yellow-300 transition"
+    >
+      Lihat Promo
+    </Link>
+  </motion.div>
+</section>
+
+
 
         {/* TESTIMONI */}
         <section className="py-24 px-4 bg-gray-100 dark:bg-gray-800">
-          <motion.h2 
-            className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
-            initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp} transition={{ duration: 0.8 }}
-          >
+         <motion.h2 
+  className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeInUp}
+  transition={{ duration: 0.8 }}>
+
             Testimoni Pelanggan
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-10">
@@ -181,12 +229,16 @@ function Home() {
               { name: 'Sari', comment: 'Ayam frozen-nya praktis dan rasanya tetap fresh.', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
               { name: 'Andi', comment: 'Pesan online, sampai cepat, packing rapi, recomended!', img: 'https://randomuser.me/api/portraits/men/54.jpg' }
             ].map((testi, i) => (
-              <motion.div
-                key={i}
-                className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg text-center"
-                initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}
-                variants={fadeInUp} transition={{ duration: 0.5, delay: i * 0.2 }}
-              >
+             <motion.div
+  key={i}
+  className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg text-center"
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: false, amount: 0.3 }}
+  variants={fadeInUp}
+  transition={{ duration: 0.5, delay: i * 0.2 }}
+>
+
                 <img src={testi.img} alt={testi.name} className="mx-auto w-24 h-24 rounded-full mb-4 object-cover" />
                 <p className="text-lg italic text-gray-600 dark:text-gray-300 mb-4">"{testi.comment}"</p>
                 <h4 className="font-semibold text-gray-800 dark:text-white">{testi.name}</h4>
