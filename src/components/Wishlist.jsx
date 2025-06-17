@@ -28,26 +28,24 @@ function Wishlist() {
     navigate("/checkout", { state: { products: selectedItems } });
   };
 
-  const totalHarga = selectedItems.reduce(
-    (total, item) => total + item.price * (item.quantity || 1),
-    0
-  );
+  const totalHarga = selectedItems.reduce((total, item) => {
+    const hargaSatuan = item.price - (item.discount || 0);
+    return total + hargaSatuan * (item.quantity || 1);
+  }, 0);
+
+  const totalDiskon = selectedItems.reduce((total, item) => {
+    const diskon = item.discount || 0;
+    return total + diskon * (item.quantity || 1);
+  }, 0);
 
   if (wishlist.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-[url('https://www.transparenttextures.com/patterns/food.png')] bg-repeat
-        text-gray-900 dark:text-white px-4">
-
+      <div className="flex flex-col items-center justify-center min-h-screen w-full bg-[url('https://www.transparenttextures.com/patterns/food.png')] bg-repeat text-gray-900 dark:text-white px-4">
         <motion.div animate={{ y: [0, -20, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
-         <div className="text-8xl mb-4">
-  🛒
-</div>
-
+          <div className="text-8xl mb-4">🛒</div>
         </motion.div>
-
         <h2 className="text-3xl font-semibold mb-2">Wishlist Kosong</h2>
         <p className="mb-6 text-gray-600 dark:text-white">Ayo tambahkan produk favoritmu!</p>
-
         <Link to="/products">
           <button className="bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow-lg transition hover:scale-105 hover:brightness-110">
             Mulai Belanja
@@ -58,7 +56,7 @@ function Wishlist() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[url('https://www.transparenttextures.com/patterns/food.png')]  bg-gradient-to-br from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-12 px-4 pb-32 transition-colors duration-300">
+    <div className="min-h-screen w-full bg-[url('https://www.transparenttextures.com/patterns/food.png')] bg-gradient-to-br from-[#f1f5f9] via-[#e2e8f0] to-[#f1f5f9] dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-12 px-4 pb-32 transition-colors duration-300">
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white transition-colors duration-300">
         Wishlist Saya
       </h2>
@@ -72,13 +70,17 @@ function Wishlist() {
             whileHover={{ scale: 1.03 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className={`relative border rounded-lg shadow p-4 transition-all duration-200 bg-white dark:bg-slate-800 ${
-              isSelected(product) ? "border-green-500 ring-2 ring-green-400" : "hover:border-gray-300 dark:hover:border-gray-500"
+              isSelected(product)
+                ? "border-green-500 ring-2 ring-green-400"
+                : "hover:border-gray-300 dark:hover:border-gray-500"
             }`}
           >
             <motion.div
               onClick={() => toggleSelectItem(product)}
               className={`absolute top-3 left-3 w-6 h-6 rounded-full border-2 flex items-center justify-center cursor-pointer transition ${
-                isSelected(product) ? "bg-green-600 border-green-600 text-white" : "border-gray-400 bg-white"
+                isSelected(product)
+                  ? "bg-green-600 border-green-600 text-white"
+                  : "border-gray-400 bg-white"
               }`}
               title="Pilih produk ini"
               initial={false}
@@ -103,9 +105,21 @@ function Wishlist() {
             <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{product.name}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{product.category}</p>
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">Qty: {product.quantity || 1}</p>
-            <p className="font-bold text-blue-600 dark:text-blue-400 mb-2">
-              Total: Rp {(product.price * (product.quantity || 1)).toLocaleString()}
-            </p>
+
+            {product.discount ? (
+              <div className="mb-2">
+                <p className="line-through text-gray-400 text-sm">
+                  Rp {(product.price * (product.quantity || 1)).toLocaleString()}
+                </p>
+                <p className="font-bold text-green-500 dark:text-green-500">
+                  Rp {((product.price - product.discount) * (product.quantity || 1)).toLocaleString()}
+                </p>
+              </div>
+            ) : (
+              <p className="font-bold text-blue-600 dark:text-blue-400 mb-2">
+                Rp {(product.price * (product.quantity || 1)).toLocaleString()}
+              </p>
+            )}
 
             <div className="flex flex-col gap-2 mt-2">
               <Link to={`/products/${product.id}`}>
@@ -113,7 +127,6 @@ function Wishlist() {
                   Lihat Detail
                 </button>
               </Link>
-
               <button
                 onClick={() => removeFromWishlist(product.id)}
                 className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white w-full px-4 py-2 rounded shadow transition duration-300 hover:scale-105"
@@ -137,6 +150,9 @@ function Wishlist() {
             <div>
               <p className="text-gray-600 dark:text-gray-400 text-sm">Total Harga:</p>
               <p className="text-xl font-bold text-blue-600 dark:text-blue-400">Rp {totalHarga.toLocaleString()}</p>
+              {totalDiskon > 0 && (
+                <p className="text-sm text-red-500 dark:text-red-400">Diskon: - Rp {totalDiskon.toLocaleString()}</p>
+              )}
             </div>
 
             <motion.button

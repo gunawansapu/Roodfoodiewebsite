@@ -9,11 +9,12 @@ import Food from "../assets/food-vlogger.json";
 import frozen from "../assets/snowflake.json";
 import delivery from "../assets/delivery-boy.json";
 import tested from "../assets/successfully-done.json";
+import VideoSlider from '../components/VideoSlider';
 
 const menuAndalan = [
-  { id: 1, title: 'Nasi Goreng Spesial', img: 'https://images.unsplash.com/photo-1647093953000-9065ed6f85ef?w=600' },
+  { id: 1, title: 'Ayam Bakar Pejantan', img: 'https://media.sukabumiupdate.com/media/2023/08/23/1692794817_64e5ffc1a3b7a_KwoK5jr7Wdduk0oFNxjn.webp' },
   { id: 3, title: 'Ayam Bakar Taliwang', img: 'https://indonesiakaya.com/wp-content/uploads/2023/04/at_Artboard_4.jpg' },
-  { id: 5, title: 'Bakso Malang', img: 'https://i.pinimg.com/736x/a0/df/cf/a0dfcff4e2218364adc12cd4c96c50c2.jpg' }
+  { id: 5, title: 'Ayam Goreng Pejantan', img: 'https://images.tokopedia.net/img/cache/700/VqbcmM/2020/11/25/1409093a-2cfc-4784-a9cc-5eb3f37a19ad.jpg' }
 ];
 
 const fadeIn = { hidden: { opacity: 0, y: 50 }, visible: { opacity: 1, y: 0 } };
@@ -182,6 +183,10 @@ function Home() {
           </motion.div>
         </section>
 
+ <VideoSlider />
+
+
+
        {/* PROMO */}
       <section
   className="py-16 px-4 bg-cover bg-center text-white text-center rounded-xl mx-4 my-10 shadow-lg"
@@ -211,41 +216,44 @@ function Home() {
 
 
 
-        {/* TESTIMONI */}
-        <section className="py-24 px-4 bg-gray-100 dark:bg-gray-800">
-         <motion.h2 
-  className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: false, amount: 0.3 }}
-  variants={fadeInUp}
-  transition={{ duration: 0.8 }}>
+  {/* TESTIMONI */}
+<section className="py-24 px-4">
+  <motion.h2 
+    className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white"
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: false, amount: 0.3 }}
+    variants={fadeInUp}
+    transition={{ duration: 0.8 }}
+  >
+    Testimoni Pelanggan
+  </motion.h2>
 
-            Testimoni Pelanggan
-          </motion.h2>
-          <div className="grid md:grid-cols-3 gap-10">
-            {[
-              { name: 'Budi', comment: 'Rasanya juara! Sambalnya mantap, ayamnya empuk.', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
-              { name: 'Sari', comment: 'Ayam frozen-nya praktis dan rasanya tetap fresh.', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
-              { name: 'Andi', comment: 'Pesan online, sampai cepat, packing rapi, recomended!', img: 'https://randomuser.me/api/portraits/men/54.jpg' }
-            ].map((testi, i) => (
-             <motion.div
-  key={i}
-  className="bg-white dark:bg-gray-900 p-8 rounded-xl shadow-lg text-center"
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: false, amount: 0.3 }}
-  variants={fadeInUp}
-  transition={{ duration: 0.5, delay: i * 0.2 }}
->
+  <div className="grid md:grid-cols-3 gap-10">
+    {[
+      { name: 'Budi', comment: 'Rasanya juara! Sambalnya mantap, ayamnya empuk.', img: 'https://randomuser.me/api/portraits/men/32.jpg' },
+      { name: 'Sari', comment: 'Ayam frozen-nya praktis dan rasanya tetap fresh.', img: 'https://randomuser.me/api/portraits/women/44.jpg' },
+      { name: 'Andi', comment: 'Pesan online, sampai cepat, packing rapi, recomended!', img: 'https://randomuser.me/api/portraits/men/54.jpg' }
+    ].map((testi, i) => (
+      <motion.div
+        key={i}
+        className="p-6 rounded-xl bg-white/20 dark:bg-white/10 backdrop-blur-md shadow-md text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: 0.3 }}
+        variants={fadeInUp}
+        transition={{ duration: 0.5, delay: i * 0.2 }}
+      >
+        <img src={testi.img} alt={testi.name} className="mx-auto w-24 h-24 rounded-full mb-4 object-cover border-4 border-white/30" />
+        <p className="text-lg italic text-gray-800 dark:text-gray-200 mb-2">"{testi.comment}"</p>
+        <h4 className="font-semibold text-gray-900 dark:text-white">{testi.name}</h4>
+      </motion.div>
+    ))}
+  </div>
+</section>
 
-                <img src={testi.img} alt={testi.name} className="mx-auto w-24 h-24 rounded-full mb-4 object-cover" />
-                <p className="text-lg italic text-gray-600 dark:text-gray-300 mb-4">"{testi.comment}"</p>
-                <h4 className="font-semibold text-gray-800 dark:text-white">{testi.name}</h4>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+
+
         {/* GOOGLE MAP */}
         <section className="py-24 px-4">
           <h3 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">Lokasi Kami</h3>

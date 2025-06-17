@@ -2,16 +2,68 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 const images = [
-  { id: 1, src: "https://images.unsplash.com/photo-1647093953000-9065ed6f85ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmFzaSUyMGdvcmVuZ3xlbnwwfHwwfHx8MA%3D%3D", alt: "Nasi Goreng Spesial" },
-  { id: 2, src: "https://www.hypermart.co.id/wp-content/uploads/elementor/thumbs/41-p5q08igqpoy19f4zhvpgme99ekxgi351gqpgxlozrs.jpg", alt: "Ayam Bakar Madu" },
-  { id: 3, src: "https://healthybelly.s3.amazonaws.com/product/media_1738841131_0.webp", alt: "Soto Ayam" },
-  { id: 4, src: "https://awsimages.detik.net.id/community/media/visual/2020/10/08/ikan-nila-bakar-pedas-manis-2_169.jpeg?w=620", alt: "Ikan Bakar" },
-  { id: 5, src: "https://www.astronauts.id/blog/wp-content/uploads/2023/12/Daftar-Kue-Tradisional-Indonesia-Populer-Dari-Berbagai-Daerah.jpg", alt: "Kue Tradisional" },
-  { id: 6, src: "https://www.shutterstock.com/image-photo/es-cendol-dawet-drink-made-600nw-2538351249.jpg", alt: "Es Cendol Segar" },
-  { id: 7, src: "https://cdn1-production-images-kly.akamaized.net/OUqqLu3BtXjfJac0EtxLVMETVws=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3128504/original/083078300_1589462572-shutterstock_435468841.jpg", alt: "Es Teh Manis" },
-  { id: 8, src: "https://indonesiakaya.com/wp-content/uploads/2023/04/at_Artboard_4.jpg", alt: "Ayam Bakar Taliwang" },
-  { id: 9, src: "https://www.ninevibe.com/storage/statement-images/OD3rY1bPCixDb8NP2Z8Pi2325o3L47HKSknNyK0I.webp", alt: "Jus Alpukat" },
-  { id: 10, src: "https://i.pinimg.com/736x/a0/df/cf/a0dfcff4e2218364adc12cd4c96c50c2.jpg", alt: "Bakso Malang" },
+       {
+    id: 1,
+    name: "Ayam Bakar Pejantan",
+    src:
+      "https://media.sukabumiupdate.com/media/2023/08/23/1692794817_64e5ffc1a3b7a_KwoK5jr7Wdduk0oFNxjn.webp",
+      alt:"Ayam Bakar Pejantan"
+  },
+  {
+    id: 2,
+    name: "Es Teh Manis",
+    src:
+      "https://cdn1-production-images-kly.akamaized.net/OUqqLu3BtXjfJac0EtxLVMETVws=/1200x1200/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/3128504/original/083078300_1589462572-shutterstock_435468841.jpg",
+      alt:"Es Teh Manis"
+  },
+  {
+    id: 3,
+    name: "Ayam Bakar Taliwang",
+    src: "https://indonesiakaya.com/wp-content/uploads/2023/04/at_Artboard_4.jpg",
+    alt:"Ayam Bakar Taliwang"
+  },
+  {
+    id: 4,
+    name: "Jus Alpukat",
+    src: "https://www.ninevibe.com/storage/statement-images/OD3rY1bPCixDb8NP2Z8Pi2325o3L47HKSknNyK0I.webp",
+    alt:"Jus Alpukat"
+  },
+  {
+    id: 5,
+    name: "Ayam Goreng Pejantan",
+    src: "https://images.tokopedia.net/img/cache/700/VqbcmM/2020/11/25/1409093a-2cfc-4784-a9cc-5eb3f37a19ad.jpg",
+    alt:"Ayam Goreng Pejantan"
+  },
+  {
+    id: 6,
+    src: "https://down-id.img.susercontent.com/file/id-11134207-7qul6-lj3kkg25khg771",
+    alt:"Bebek Goreng"
+  },
+  {
+    id: 7,
+    name: "Es Cendol Segar",
+    src: "https://www.shutterstock.com/image-photo/es-cendol-dawet-drink-made-600nw-2538351249.jpg",
+    alt:"Es Cendol Segar"
+  },
+   {
+    id: 8,
+    name: "Nasi Ayam Goreng",
+    src: "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/105/2024/10/31/resep-ayam-goreng-lengkuas-1073487863.jpg",
+    alt:"Nasi Ayam Goreng"
+  },
+   {
+    id: 9,
+    name:"Ayam Bakar Broiler",
+    src: "https://asset.kompas.com/crops/WTuA1Jn_cJEFlr9UgBhA-72n8yI=/3x0:700x465/1200x800/data/photo/2020/12/30/5fec5602f116e.jpg",
+    alt:"Ayam Bakar Broiler"
+  },
+   {
+    id: 10,
+    name: "Ayam Bakar Madu",
+    src: "https://www.hypermart.co.id/wp-content/uploads/elementor/thumbs/41-p5q08igqpoy19f4zhvpgme99ekxgi351gqpgxlozrs.jpg",
+    alt:"Ayam Bakar Madu"
+  },
+ 
 ];
 
 function Gallery() {

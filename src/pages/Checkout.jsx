@@ -389,6 +389,7 @@ function Checkout() {
       alamat_negara: address.country || "Indonesia",
       lat: address.lat,
       lng: address.lng,
+       deliveryService,
       created_at: new Date().toISOString(),
     };
 
@@ -417,6 +418,17 @@ function Checkout() {
       setLoading(false);
     }
   };
+
+  const [deliveryService, setDeliveryService] = useState('');
+
+const totalHargaSetelahDiskon = products.reduce((total, product) => {
+  const potongan = product.discount || 0;
+  const hargaSetelahDiskon = product.price - potongan;
+  const qty = product.quantity || 1;
+  return total + hargaSetelahDiskon * qty;
+}, 0);
+
+
 
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
@@ -476,31 +488,105 @@ function Checkout() {
         </div>
       </div>
 
-      {/* Produk */}
-      <div className="grid gap-4 mb-6">
-        {products.map((product) => (
-          <div key={product.id} className="border p-4 rounded shadow flex gap-4">
-            <img src={product.image} alt={product.name} className="w-32 h-32 object-cover rounded" />
-            <div className="flex flex-col justify-between">
-              <div>
-                <h3 className="text-xl font-semibold">{product.name}</h3>
-                <p className="text-gray-600">{product.category}</p>
-                <p>Qty: <strong>{product.quantity || 1}</strong></p>
-              </div>
-              <p className="font-bold text-blue-600 text-lg">
-                Rp {(product.price * (product.quantity || 1)).toLocaleString()}
-              </p>
-            </div>
-          </div>
-        ))}
+     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+  {[
+    {
+      label: "GoFood",
+      value: "gofood",
+      img: "https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_2075,h_1200/https://brandingkan.com/wp-content/uploads/2023/02/Gofood-logo.jpg",
+    },
+    {
+      label: "GrabFood",
+      value: "grabfood",
+      img: "https://logowik.com/content/uploads/images/grabfood7693.jpg",
+    },
+    {
+      label: "Kurir Toko",
+      value: "kurir-toko",
+      img: "https://i.pinimg.com/736x/5e/29/0d/5e290d2b2fe4150805db9c372b640290.jpg",
+    },
+    {
+      label: "Ambil Sendiri",
+      value: "ambil-sendiri",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFp3KP54GwNgDIYV47XCxnvEbAlTdSnrFp9Q&s",
+    },
+  ].map((option) => (
+    <button
+      key={option.value}
+      onClick={() => setDeliveryService(option.value)}
+      className={`group rounded-xl p-4 shadow-md transition-all duration-300 bg-white hover:shadow-lg border-2 ${
+        deliveryService === option.value
+          ? "border-green-600 ring-2 ring-green-300"
+          : "border-transparent"
+      }`}
+    >
+      <div className="flex flex-col items-center">
+        <div className="w-16 h-16 rounded-full overflow-hidden bg-white shadow mb-3">
+          <img
+            src={option.img}
+            alt={option.label}
+            className="w-full h-full object-contain p-2"
+          />
+        </div>
+        <span className="text-sm font-medium text-gray-800 group-hover:text-green-700">
+          {option.label}
+        </span>
       </div>
+    </button>
+  ))}
+</div>
+<br /> <br /> <br />
+
+      <div className="grid gap-4 mb-6">
+  {products.map((product) => {
+    const hargaAsli = product.price;
+    const potongan = product.discount || 0;
+    const hargaSetelahDiskon = hargaAsli - potongan;
+    const qty = product.quantity || 1;
+    const totalHargaProduk = hargaSetelahDiskon * qty;
+
+    return (
+      <div key={product.id} className="border p-4 rounded shadow flex gap-4">
+        <img src={product.image} alt={product.name} className="w-32 h-32 object-cover rounded" />
+        <div className="flex flex-col justify-between w-full">
+          <div>
+            <h3 className="text-xl font-semibold">{product.name}</h3>
+            <p className="text-gray-600">{product.category}</p>
+            <p>Qty: <strong>{qty}</strong></p>
+            {potongan > 0 ? (
+              <p className="text-sm text-red-600 mt-1">
+                <span className="line-through text-gray-500">
+                  Rp {hargaAsli.toLocaleString()}
+                </span>{" "}
+                → <span className="font-bold text-blue-600">
+                  Rp {hargaSetelahDiskon.toLocaleString()}
+                </span>{" "}
+                <span className="text-green-600 font-semibold">
+                  (-Rp {potongan.toLocaleString()})
+                </span>
+              </p>
+            ) : (
+              <p className="font-bold text-blue-600 mt-1">
+                Rp {hargaAsli.toLocaleString()}
+              </p>
+            )}
+          </div>
+          <p className="text-right text-blue-700 font-bold mt-2">
+            Total: Rp {totalHargaProduk.toLocaleString()}
+          </p>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
 
       {/* Metode Pembayaran & Upload */}
       <div className="border p-4 rounded shadow mb-6">
         <h4 className="font-semibold text-lg mb-2">Pilih Metode Pembayaran:</h4>
         <ul className="mb-4">
           <li>✅ QRIS (Scan QR di bawah)</li>
-          <li>✅ Transfer Bank: BCA 1234567890 a.n. ResQMeal</li>
+          <li>✅ Transfer Bank: BCA 1234567890 a.n. RoodFoodie</li>
         </ul>
         <img src="https://qris.interactive.co.id/homepage/images/assets/pay/harga/csan-qr-a.jpg" alt="QRIS" className="w-40 mx-auto mb-4" />
 
@@ -522,10 +608,11 @@ function Checkout() {
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
           />
         </div>
+  <p className="text-xl font-bold text-blue-600 text-center mb-4">
+  Total: Rp {totalHargaSetelahDiskon.toLocaleString()}
+</p>
 
-        <p className="text-xl font-bold text-blue-600 text-center mb-4">
-          Total: Rp {totalHarga.toLocaleString()}
-        </p>
+
 
         <motion.button
           onClick={handleConfirmPayment}

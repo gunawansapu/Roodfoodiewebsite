@@ -5,15 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 const promos = [
   {
     id: 1,
-    title: "Nasi Goreng Spesial",
-    subtitle: "Nikmati cita rasa nasi goreng terbaik dengan bumbu rahasia.",
-    image: "https://raw.githubusercontent.com/gunawansapu/gunawan/main/nasgor%20promo.png",
+    title: "Ayam Bakar Pejantan",
+    subtitle: "Nikmati cita rasa Ayam Bakar terbaik dengan bumbu rahasia.",
+    image: "https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/359d51ea-e7c1-42d9-b2ea-5f9aeb7e6508_Go-Biz_20240915_050322.jpeg",
   },
   {
     id: 2,
-    title: "Bakso Malang",
-    subtitle: "Lezat dan kenyal, bakso khas Malang yang menggoda selera.",
-    image: "https://media.istockphoto.com/id/1146015549/photo/meatball-indonesian-meatball.jpg?s=612x612&w=0&k=20&c=OOoXgh14l-XnA9sdkaDIcCKZ4I6YciG7fDeTPaR-jHs=",
+    title: "Ayam Bakar Madu",
+    subtitle: "Lezat dan kenyal, Ayam Bakar Madu.",
+    image: "https://www.hypermart.co.id/wp-content/uploads/elementor/thumbs/41-p5q08igqpoy19f4zhvpgme99ekxgi351gqpgxlozrs.jpg",
   },
   {
     id: 3,
